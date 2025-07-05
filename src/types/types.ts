@@ -2,7 +2,7 @@ export interface Itask{
     id: string,
     title: string,
     description: string,
-    priority: 'High' | 'Medium' | 'Low',
+    priority: 'high' | 'medium' | 'low',
     isComplete: boolean,
-    dueDate: string
+    dueDate: Date
 }

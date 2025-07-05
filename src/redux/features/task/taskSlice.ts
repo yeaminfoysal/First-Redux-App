@@ -1,6 +1,6 @@
 import type { RootState } from "@/redux/store";
 import type { Itask } from "@/types/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 interface InitialState {
     tasks: Itask[]
@@ -8,40 +8,41 @@ interface InitialState {
 
 const initialState: InitialState = {
     tasks: [
-        {
-            id: "jgufhjvkj",
-            title: "hello world",
-            description: "hello world description",
-            dueDate: '01-03-2025',
-            isComplete: false,
-            priority: 'High'
-        },
-        {
-            id: "jgufhjvkj",
-            title: "hello world",
-            description: "hello world description",
-            dueDate: '01-03-2025',
-            isComplete: false,
-            priority: 'Medium'
-        },
-        {
-            id: "jgufhjvkj",
-            title: "hello world",
-            description: "hello world description",
-            dueDate: '01-03-2025',
-            isComplete: false,
-            priority: 'Low'
-        },
     ]
 }
 
+type DraftTask = Pick<Itask, "title" | "description" | "dueDate" | "priority">
+
+const createTask = (taskData: DraftTask): Itask => {
+    return {
+        id: nanoid(),
+        isComplete: false,
+        ...taskData
+    }
+}
 const taskSlice = createSlice({
     name: 'task',
     initialState,
-    reducers: {}
+    reducers: {
+        addTask: (state, action) => {
+            
+            // const id = uuidv4;
+            // const task = {
+            //     id,
+            //     isComplete: false,
+            //     ...action.payload
+            // }
+
+            const task = createTask(action.payload)
+
+            state.tasks.push(task)
+        }
+    }
 });
 export const selectTask = (state: RootState) => {
     return state.todo.tasks
 }
+
+export const { addTask } = taskSlice.actions;
 
 export default taskSlice.reducer;

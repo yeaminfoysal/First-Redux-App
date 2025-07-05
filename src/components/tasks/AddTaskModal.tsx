@@ -10,7 +10,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form"
-import { useForm } from "react-hook-form"
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -19,19 +19,17 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
+import { useAppDispatch } from "@/redux/hooks";
+import { addTask } from "@/redux/features/task/taskSlice";
+import type { Itask } from "@/types/types";
 
-interface IOnsubmit {
-    title: string,
-    name: string,
-    description: string,
-    priority: string,
-    dueDate: Date
-}
 export function AddTaskModal() {
-    const form = useForm<IOnsubmit>();
+    const form = useForm<Itask>();
 
-    const onsubmit = (data: IOnsubmit) => {
-        console.log(data);
+    const dispatch = useAppDispatch();
+
+    const onsubmit: SubmitHandler<FieldValues> = (data) => {
+        dispatch(addTask(data))
     }
     return (
         <Dialog>
@@ -83,7 +81,7 @@ export function AddTaskModal() {
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}>
                                             <FormControl>
-                                                <SelectTrigger  className="w-full " >
+                                                <SelectTrigger className="w-full " >
                                                     <SelectValue className="" placeholder="Select a value to set priority         " />
                                                 </SelectTrigger>
                                             </FormControl>
