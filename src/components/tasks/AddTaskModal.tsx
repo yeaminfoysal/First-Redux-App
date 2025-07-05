@@ -13,10 +13,24 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form"
 import { useForm } from "react-hook-form"
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
+import { format } from "date-fns";
 
+interface IOnsubmit {
+    title: string,
+    name: string,
+    description: string,
+    priority: string,
+    dueDate: Date
+}
 export function AddTaskModal() {
-    const form = useForm();
-    const onsubmit = (data: any) => {
+    const form = useForm<IOnsubmit>();
+
+    const onsubmit = (data: IOnsubmit) => {
         console.log(data);
     }
     return (
@@ -38,11 +52,11 @@ export function AddTaskModal() {
                             <FormField
                                 control={form.control}
                                 name="title"
-                                render={({field}) => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Title</FormLabel>
                                         <FormControl>
-                                            <Input {...field} value={field.value || ""}/>
+                                            <Input {...field} value={field.value || ""} />
                                         </FormControl>
                                     </FormItem>
                                 )}
@@ -50,12 +64,72 @@ export function AddTaskModal() {
                             <FormField
                                 control={form.control}
                                 name="description"
-                                render={({field}) => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Description</FormLabel>
                                         <FormControl>
-                                            <Textarea {...field} value={field.value || ""}/>
+                                            <Textarea {...field} value={field.value || ""} />
                                         </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="priority"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Priority</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger  className="w-full " >
+                                                    <SelectValue className="" placeholder="Select a value to set priority         " />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="low">Low</SelectItem>
+                                                <SelectItem value="medium">Medium</SelectItem>
+                                                <SelectItem value="high">High</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="dueDate"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Due Date</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            " pl-3 text-left font-normal",
+                                                            !field.value && "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(field.value, "PPP")
+                                                        ) : (
+                                                            <span>Pick a date</span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0" align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    captionLayout="dropdown"
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
                                     </FormItem>
                                 )}
                             />
