@@ -29,7 +29,7 @@ export function AddTaskModal() {
     const dispatch = useAppDispatch();
 
     const onsubmit: SubmitHandler<FieldValues> = (data) => {
-        dispatch(addTask(data))
+        dispatch(addTask(data as Itask))
     }
     return (
         <Dialog>
@@ -122,7 +122,7 @@ export function AddTaskModal() {
                                             <PopoverContent className="w-auto p-0" align="start">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={field.value}
+                                                    // selected={field.value}
                                                     onSelect={field.onChange}
                                                     captionLayout="dropdown"
                                                 />
