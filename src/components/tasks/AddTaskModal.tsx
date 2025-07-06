@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addTask } from "@/redux/features/task/taskSlice";
 import type { Itask } from "@/types/types";
 
@@ -27,6 +27,7 @@ export function AddTaskModal() {
     const form = useForm<Itask>();
 
     const dispatch = useAppDispatch();
+    const users = useAppSelector((state) => state.user.users);
 
     const onsubmit: SubmitHandler<FieldValues> = (data) => {
         dispatch(addTask(data as Itask))
@@ -89,6 +90,31 @@ export function AddTaskModal() {
                                                 <SelectItem value="low">Low</SelectItem>
                                                 <SelectItem value="medium">Medium</SelectItem>
                                                 <SelectItem value="high">High</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="assignTo"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Assign To</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger className="w-full " >
+                                                    <SelectValue className="" placeholder="Select a person to assign this task" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {
+                                                    users.map((user) => (
+                                                        <SelectItem value={user.id} key={user.id}>{user.name}</SelectItem>
+                                                    ))
+                                                }
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
