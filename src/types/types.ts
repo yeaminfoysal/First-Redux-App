@@ -6,3 +6,8 @@ export interface Itask{
     isComplete: boolean,
     dueDate: string
 }
+
+export interface IUser{
+    id: string,
+    name: string
+}
