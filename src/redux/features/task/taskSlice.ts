@@ -1,4 +1,4 @@
-import type { RootState } from "@/redux/store";
+// import type { RootState } from "@/redux/store";
 import type { Itask } from "@/types/types";
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 import { removeUser } from "../user/userSlice";
@@ -72,18 +72,18 @@ const taskSlice = createSlice({
     }
 });
 
-export const selectTask = (state: RootState) => {
-    const filter = state.todo.filter;
-    if (filter == "low") {
-        return state.todo.tasks.filter((task) => task.priority == "low")
-    } else if (filter == "medium") {
-        return state.todo.tasks.filter((task) => task.priority == "medium")
-    } else if (filter == "high") {
-        return state.todo.tasks.filter((task) => task.priority == "high")
-    } else {
-        return state.todo.tasks
-    }
-}
+// export const selectTask = (state: RootState) => {
+//     const filter = state.todo.filter;
+//     if (filter == "low") {
+//         return state.todo.tasks.filter((task) => task.priority == "low")
+//     } else if (filter == "medium") {
+//         return state.todo.tasks.filter((task) => task.priority == "medium")
+//     } else if (filter == "high") {
+//         return state.todo.tasks.filter((task) => task.priority == "high")
+//     } else {
+//         return state.todo.tasks
+//     }
+// }
 
 export const { addTask, toggleCompleteState, deleteTask, updateFilter } = taskSlice.actions;
 

@@ -1,20 +1,20 @@
-import { Trash2 } from "lucide-react";
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
+// import { Trash2 } from "lucide-react";
+// import { Button } from "../ui/button";
+// import { Checkbox } from "../ui/checkbox";
 import type { Itask } from "@/types/types";
 import { cn } from "@/lib/utils";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { deleteTask, toggleCompleteState } from "@/redux/features/task/taskSlice";
+// import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+// import { deleteTask, toggleCompleteState } from "@/redux/features/task/taskSlice";
 
 interface IProps {
     task: Itask
 }
 
 export default function TaskCard({ task }: IProps) {
-    const dispatch = useAppDispatch();
-    const users = useAppSelector(state => state.user.users);
+    // const dispatch = useAppDispatch();
+    // const users = useAppSelector(state => state.user.users);
 
-    const assignedUser = users.find(user => user.id == task.assignTo)
+    // const assignedUser = users.find(user => user.id == task.assignTo)
 
     return (
         <div className="border px-5 py-3 rounded-md">
@@ -28,14 +28,14 @@ export default function TaskCard({ task }: IProps) {
                     <h1 className={cn({ "line-through": task.isComplete })}>{task.title}</h1>
                 </div>
                 <div className="flex gap-3 items-center">
-                    <Button onClick={() => dispatch(deleteTask(task.id))} variant="link" className="p-0 text-red-500">
+                    {/* <Button onClick={() => dispatch(deleteTask(task.id))} variant="link" className="p-0 text-red-500">
                         <Trash2 />
-                    </Button>
-                    <Checkbox checked={task.isComplete} onClick={() => dispatch(toggleCompleteState(task.id))} />
+                    </Button> */}
+                    {/* <Checkbox checked={task.isComplete} onClick={() => dispatch(toggleCompleteState(task.id))} /> */}
                 </div>
             </div>
             {
-                assignedUser ? <p>Assigned to: {assignedUser.name}</p> : ""
+                // assignedUser ? <p>Assigned to: {assignedUser.name}</p> : ""
             }
             <p className="mt-5">{task.description}</p>
         </div>

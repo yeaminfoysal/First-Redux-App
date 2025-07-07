@@ -19,23 +19,33 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addTask } from "@/redux/features/task/taskSlice";
+// import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+// import { addTask } from "@/redux/features/task/taskSlice";
 import type { Itask } from "@/types/types";
 import { useState } from "react";
+import { useCreateTaskMutation } from "@/redux/api/baseApi";
 
 export function AddTaskModal() {
     const form = useForm<Itask>();
-    const [open, setOpen] =useState(false);
+    const [open, setOpen] = useState(false);
+    const [createTask, { data }] = useCreateTaskMutation()
 
-    const dispatch = useAppDispatch();
-    const users = useAppSelector((state) => state.user.users);
+    // const dispatch = useAppDispatch();
+    // const users = useAppSelector((state) => state.user.users);
 
     const onsubmit: SubmitHandler<FieldValues> = (data) => {
-        dispatch(addTask(data as Itask));
+        // dispatch(addTask(data as Itask));
         setOpen(false);
         form.reset();
+
+        const taskData = {
+            ...data,
+            isComplete: false
+        }
+        createTask(taskData)
     }
+    console.log(data);
+    
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -113,11 +123,11 @@ export function AddTaskModal() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {
+                                            {/* {
                                                 users.map((user) => (
                                                     <SelectItem value={user.id} key={user.id}>{user.name}</SelectItem>
                                                 ))
-                                            }
+                                            } */}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
